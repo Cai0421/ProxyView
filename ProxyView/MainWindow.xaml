@@ -91,7 +91,9 @@
                                     BorderBrush="{x:Null}"
                                     materialDesign:ShadowAssist.ShadowDepth="Depth1"
                                     Padding="0"
-                                    Command="{Binding MiniCommand}">
+                                    MouseLeftButtonDown="Mini_MouseLeftButtonDown"
+                                    MouseDoubleClick="Mini_MouseLeftButtonDown"
+                                    >
                                 <Viewbox Width="25"
                                          Height="25">
                                     <Canvas Width="24"
@@ -153,9 +155,6 @@
                   Grid.Column="0">
 
             </Grid>
-
-
-
             <Grid Background="#FAFAFA"
                   Grid.Column="1">
                 <Grid.RowDefinitions>

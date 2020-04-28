@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Forms;
 using ProxyView.DataModel;
 namespace ProxyView
 {
@@ -21,14 +22,45 @@ namespace ProxyView
     /// </summary>
     public partial class MainWindow : Window
     {
+        WindowState ws;
+        WindowState wsl;
+        NotifyIcon notifyIcon;
         public MainWindow()
         {
             InitializeComponent();
             this.DataContext = new MainWindowViewModel();
+            icon();
+            wsl = WindowState;
         }
+
+        //icon设置
+        private void icon()
+        {
+            this.notifyIcon = new NotifyIcon();
+            this.notifyIcon.Text = "代理监视器";
+            this.notifyIcon.Icon = new System.Drawing.Icon("D:/Projects/C#/ProxyView/ProxyView/Icon/github.ico");
+            this.notifyIcon.Visible = true;
+            notifyIcon.MouseDoubleClick += onNotifyIconDoubleClick;
+            //this.notifyIcon.ShowBalloonTip(1000);
+        }
+        private void onNotifyIconDoubleClick(object sender, EventArgs e)
+        {
+            this.Show();
+            WindowState = wsl;
+        }
+        
         private void NavBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        private void Mini_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ws = WindowState;
+            if(ws == WindowState.Normal)
+            {
+                this.Hide();
+            }
         }
     }
 
