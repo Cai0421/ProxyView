@@ -11,11 +11,12 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         ResizeMode="NoResize"
-        Height="800" Width="1100">
+        Height="569.6" Width="735.2">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="37*" />
+            <RowDefinition Height="45*" />
             <RowDefinition Height="363*" />
+            <RowDefinition Height="20*" />
         </Grid.RowDefinitions>
 
         <!--顶端部分-->
@@ -48,15 +49,26 @@
                             <SolidColorBrush Color="#1C93EC" />
                         </Polygon.Fill>
                     </Polygon>
-                    <Ellipse Cursor="Hand"
+                    <Menu Cursor="Hand"
                              HorizontalAlignment="Left"
-                             Margin="10 5"
-                             Width="50"
-                             Height="50">
-                        <Ellipse.Fill>
+                             Margin="10,4,0,9.8"
+                             Width="47" RenderTransformOrigin="-0.72,0.524">
+                        <MenuItem Header="" Cursor="Hand"
+                             HorizontalAlignment="Left"
+                             Width="48"
+                             Height="52" RenderTransformOrigin="-0.72,0.524"
+                             >
+                            <MenuItem.Background>
+                                <ImageBrush ImageSource="icon/github.png"/>
+                            </MenuItem.Background>
+                            <MenuItem Header="更新代理" RenderTransformOrigin="0.437,1.763"/>
+                        </MenuItem>
+                        <!--
+                        <Menu.Background>
                             <ImageBrush  ImageSource="icon/github.png" />
-                        </Ellipse.Fill>
-                    </Ellipse>
+                        </Menu.Background>
+                        -->
+                    </Menu>
                     <Grid HorizontalAlignment="Right"
                           Width="150">
                         <Grid.ColumnDefinitions>
@@ -70,16 +82,7 @@
                                     Background="{x:Null}"
                                     BorderBrush="{x:Null}"
                                     materialDesign:ShadowAssist.ShadowDepth="Depth1"
-                                    Padding="0">
-                                <Viewbox Width="25"
-                                         Height="25">
-                                    <Canvas Width="24"
-                                            Height="24">
-                                        <Path Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
-                                              Fill="White" />
-                                    </Canvas>
-                                </Viewbox>
-                            </Button>
+                                    Padding="0"/>
                         </Grid>
                         <!--删除部分-->
                         <Grid Grid.Column="1">
@@ -135,184 +138,138 @@
                         </Grid>
                     </Grid>
 
+
                 </Grid>
             </materialDesign:ColorZone>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="62*"/>
                 <ColumnDefinition Width="111*"/>
-                <ColumnDefinition Width="62*"/>
                 <ColumnDefinition Width="111*"/>
 
             </Grid.ColumnDefinitions>
-            <!--用户部分-->
+
             <Grid Background="#FAFAFA"
                   Grid.Column="0">
-                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                      Cursor="Hand"
-                      Name="UserList"
-                      ItemsSource="{Binding Users}" Margin="0,0,0,0.4">
-                    <!--事件绑定部分-->
-
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding SelectItemChangedCommand}"
-                                                   CommandParameter="{Binding ElementName=UserList}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-
-                    <!--数据模板部分-->
-
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal"
-                                        Height="50"
-                                        >
-
-                                <Ellipse Cursor="Hand"
-                                         Width="50"
-                                         Height="50">
-                                    <Ellipse.Fill>
-                                        <ImageBrush  ImageSource="{Binding Head}" />
-                                    </Ellipse.Fill>
-                                </Ellipse>
-                                <StackPanel Orientation="Vertical"
-                                            VerticalAlignment="Center"
-                                            Margin="5 0">
-                                    <TextBlock FontSize="15"
-                                               Foreground="Black"
-                                               Text="{Binding UserName}" />
-                                    <TextBlock Margin="0 2 0 0"
-                                               FontSize="12"
-                                               Text="这家伙很懒,什么也没留下" />
-                                </StackPanel>
-                                <!--<Viewbox Width="15"
-                                     Height="15"
-                                     Margin="0 8 0 0"
-                                     VerticalAlignment="Top">
-                                <Canvas Width="24"
-                                        Height="24">
-                                    <Path Data="M12,21L15.6,16.2C14.6,15.45 13.35,15 12,15C10.65,15 9.4,15.45 8.4,16.2L12,21M12,3C7.95,3 4.21,4.34 1.2,6.6L3,9C5.5,7.12 8.62,6 12,6C15.38,6 18.5,7.12 21,9L22.8,6.6C19.79,4.34 16.05,3 12,3M12,9C9.3,9 6.81,9.89 4.8,11.4L6.6,13.8C8.1,12.67 9.97,12 12,12C14.03,12 15.9,12.67 17.4,13.8L19.2,11.4C17.19,9.89 14.7,9 12,9Z"
-                                          Fill="#959595" />
-                                </Canvas>
-                            </Viewbox>-->
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="更新"
-          Command="{Binding UpdateUrl}"
-          CommandParameter="{Binding PlacementTarget.SelectedIndex,RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                        </ContextMenu>
-                    </ListView.ContextMenu>
-
-                </ListView>
 
             </Grid>
+
+
+
             <Grid Background="#FAFAFA"
                   Grid.Column="1">
-                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30*"/>
+                    <RowDefinition Height="146*"/>
+                    <RowDefinition Height="30*"/>
+                    <RowDefinition Height="146*"/>
+                </Grid.RowDefinitions>
+                <!--服务URL部分-->
+                <Grid Grid.Row ="0">
+                    <TextBox Height="50" TextWrapping="Wrap" Text="服务URL" VerticalAlignment="Top" Width="353" HorizontalAlignment="Left" 
+                         FontSize="15" VerticalContentAlignment="Center" IsEnabled="False" Margin="0,0,0,0"/>
+                </Grid>
+                <Grid Grid.Row="1">
+
+                    <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       ScrollViewer.VerticalScrollBarVisibility="Hidden"
                       Cursor="Hand"
                       Name="UrlList"
-                      ItemsSource="{Binding Urls}" Margin="0,50,-0.4,0.4">
-                    <!--事件绑定部分-->
+                      ItemsSource="{Binding Urls}" Margin="0,0,0,0" Grid.ColumnSpan="2">
+                        <!--事件绑定部分-->
 
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding SelectItemUrlChangedCommand}"
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectItemUrlChangedCommand}"
                                                    CommandParameter="{Binding ElementName=UrlList}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <!--数据模板部分-->
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal"
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <!--数据模板部分-->
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal"
                                         Height="50"
                                         >
 
-                                <StackPanel Orientation="Vertical"
+                                    <StackPanel Orientation="Vertical"
                                             VerticalAlignment="Center"
                                             Margin="5 0">
-                                    <TextBlock FontSize="13"
+                                        <TextBlock FontSize="13"
                                                Foreground="Black"
                                                Text="{Binding urlName}" />
+                                    </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <TextBox Height="50" TextWrapping="Wrap" Text="服务URL" VerticalAlignment="Top" Width="353" HorizontalAlignment="Left" 
-                         FontSize="15" VerticalContentAlignment="Center" IsEnabled="False" Margin="0,0,-0.2,0"/>
-
-            </Grid>
-
-            <Grid Background="#FAFAFA"
-                  Grid.Column="2">
-                <ListView ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+                <!--历史Url-->
+                <Grid Grid.Row="2">
+                    <TextBox Height="50" TextWrapping="Wrap" Text="历史URL" VerticalAlignment="Top" Width="353" HorizontalAlignment="Left" 
+                         FontSize="15" VerticalContentAlignment="Center" IsEnabled="False" Margin="0,0,0,0"/>
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="34*"/>
+                        <ColumnDefinition Width="77*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <ListView ScrollViewer.HorizontalScrollBarVisibility="Visible"
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                       Cursor="Hand"
                       Name="DateTimeList"
-                          ItemsSource="{Binding nowDateTimes}" Margin="0,50,0.4,0.4">
-                    <!--事件绑定部分-->
-                    <!--数据模板部分-->
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal"
+                          ItemsSource="{Binding Logs}" Margin="0,0,0,0">
+                            <!--事件绑定部分-->
+                            <!--数据模板部分-->
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal"
                                         Height="50"
                                         VerticalAlignment="Center"
                                         >
 
-                                <StackPanel Orientation="Vertical"
+                                        <StackPanel Orientation="Vertical"
                                             VerticalAlignment="Center"
                                             Margin="5 0">
-                                    <TextBlock FontSize="13"
+                                            <TextBlock FontSize="13"
                                                Foreground="Black"
-                                               Text="{Binding nowDateTime}" />
-                                </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <TextBox HorizontalAlignment="Left" Height="50" TextWrapping="Wrap" Text="日期-时间" VerticalAlignment="Top" Width="196"
-                         FontSize="15" VerticalContentAlignment="Center" IsEnabled="False"/>
-
-            </Grid>
-
-            <Grid Background="#FAFAFA"
-                  Grid.Column="3">
-                <ListView ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                                               Text="{Binding LogUrl}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <ListView ScrollViewer.HorizontalScrollBarVisibility="Visible"
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                       Cursor="Hand"
                       Name="LogList"
-                          ItemsSource="{Binding Logs}" Margin="0,50,0.4,0.4">
-                    <!--事件绑定部分-->
-                    <!--数据模板部分-->
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal"
+                          ItemsSource="{Binding Logs}" Margin="0,0,0,0">
+                            <!--事件绑定部分-->
+                            <!--数据模板部分-->
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal"
                                         Height="50"
                                         VerticalAlignment="Center"
                                         >
 
-                                <StackPanel Orientation="Vertical"
+                                        <StackPanel Orientation="Vertical"
                                             VerticalAlignment="Center"
                                             Margin="5 0">
-                                    <TextBlock FontSize="13"
+                                            <TextBlock FontSize="13"
                                                Foreground="Black"
                                                Text="{Binding LogUrl}" />
-                                </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <TextBox HorizontalAlignment="Left" Height="50" TextWrapping="Wrap" Text="历史URL" VerticalAlignment="Top" Width="352"
-                         FontSize="15" VerticalContentAlignment="Center" IsEnabled="False"/>
-
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Grid>
             </Grid>
         </Grid>
+        <StatusBar HorizontalAlignment="Left" Height="27" Margin="0,483,0,-0.4" Grid.Row="1" VerticalAlignment="Top" Width="735" Grid.RowSpan="2"/>
     </Grid>
 </Window>
