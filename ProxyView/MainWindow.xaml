@@ -93,6 +93,7 @@
                                     Padding="0"
                                     MouseLeftButtonDown="Mini_MouseLeftButtonDown"
                                     MouseDoubleClick="Mini_MouseLeftButtonDown"
+                                    MouseLeftButtonUp="Mini_MouseLeftButtonDown"
                                     >
                                 <Viewbox Width="25"
                                          Height="25">
@@ -146,20 +147,20 @@
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="111*"/>
+                <ColumnDefinition Width="90*"/>
                 <ColumnDefinition Width="111*"/>
 
             </Grid.ColumnDefinitions>
 
             <Grid Background="#FAFAFA"
                   Grid.Column="0">
-                <TextBox x:Name="Hour_TextBox" HorizontalAlignment="Left" Height="36" Margin="54,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontSize="20
-                         "/>
-                <Label Content=":" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="139,141,0,0" FontSize="20"/>
-                <TextBox x:Name="Miniute_TextBox" HorizontalAlignment="Left" Height="36" Margin="171,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontSize="20                          " RenderTransformOrigin="0.48,1.192"/>
-                <TextBox x:Name="Second_TextBox" HorizontalAlignment="Left" Height="36" Margin="273,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontSize="20                          "/>
-                <Label Content=":" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="255,141,0,0" FontSize="20"/>
-                <Label Content="倒计时更新" HorizontalAlignment="Left" Margin="54,100,0,0" VerticalAlignment="Top" FontSize="22"/>
+                <TextBox x:Name="Hour_TextBox" HorizontalAlignment="Left" Height="36" Margin="15,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontSize="24
+                         " Text="06" IsEnabled="False"/>
+                <Label Content=":" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="99,158,0,0" FontSize="24" />
+                <TextBox x:Name="Miniute_TextBox" HorizontalAlignment="Left" Height="36" Margin="132,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontSize="24" IsEnabled="False" RenderTransformOrigin="0.48,1.192" Text="00"/>
+                <TextBox x:Name="Second_TextBox" HorizontalAlignment="Center" Height="36" Margin="233,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontSize="24" Text="00" IsEnabled="False"/>
+                <Label Content=":" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,158,0,0" FontSize="20"/>
+                <Label Content="倒计时更新" HorizontalAlignment="Left" Margin="15,100,0,0" VerticalAlignment="Top" FontSize="22"/>
 
             </Grid>
             <Grid Background="#FAFAFA"
@@ -216,15 +217,15 @@
                 </Grid>
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="34*"/>
+                        <ColumnDefinition Width="46*"/>
                         <ColumnDefinition Width="77*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
-                        <ListView ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                        <ListView ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                       Cursor="Hand"
                       Name="DateTimeList"
-                          ItemsSource="{Binding Logs}" Margin="0,0,0,0">
+                          ItemsSource="{Binding nowDateTimes}" Margin="0,0,0,0">
                             <!--事件绑定部分-->
                             <!--数据模板部分-->
                             <ListView.ItemTemplate>
@@ -239,7 +240,7 @@
                                             Margin="5 0">
                                             <TextBlock FontSize="13"
                                                Foreground="Black"
-                                               Text="{Binding LogUrl}" />
+                                               Text="{Binding nowDateTime}" />
                                         </StackPanel>
                                     </StackPanel>
                                 </DataTemplate>
