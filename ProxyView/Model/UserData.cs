@@ -103,7 +103,7 @@ namespace ProxyView.DataModel
                     {
                         Log tempLogUrl = new Log();
                         NowDateTime tempDateTime = new NowDateTime();
-                        tempLogUrl.LogUrl = urlLogChild.GetAttribute("url");
+                        tempLogUrl.LogUrl = urlLogChild.GetAttribute("datetime") + " " + urlLogChild.GetAttribute("url");
                         tempDateTime.nowDateTime = urlLogChild.GetAttribute("datetime");
                         temp_url.Logs.Add(tempLogUrl);
                         temp_url.NowDateTimes.Add(tempDateTime);

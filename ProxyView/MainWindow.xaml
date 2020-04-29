@@ -53,6 +53,7 @@
                              HorizontalAlignment="Left"
                              Margin="10,4,0,9.8"
                              Width="47" RenderTransformOrigin="-0.72,0.524">
+                        <!--
                         <MenuItem Header="" Cursor="Hand"
                              HorizontalAlignment="Left"
                              Width="48"
@@ -63,11 +64,12 @@
                             </MenuItem.Background>
                             <MenuItem Header="更新代理" RenderTransformOrigin="0.437,1.763"/>
                         </MenuItem>
-                        <!--
+                        -->
+                        
                         <Menu.Background>
                             <ImageBrush  ImageSource="icon/github.png" />
                         </Menu.Background>
-                        -->
+                       
                     </Menu>
                     <Grid HorizontalAlignment="Right"
                           Width="150">
@@ -89,11 +91,10 @@
                             <Button Height="60"
                                     Background="{x:Null}"
                                     BorderBrush="{x:Null}"
+                                    x:Name="Mini_Button"
                                     materialDesign:ShadowAssist.ShadowDepth="Depth1"
                                     Padding="0"
                                     MouseLeftButtonDown="Mini_MouseLeftButtonDown"
-                                    MouseDoubleClick="Mini_MouseLeftButtonDown"
-                                    MouseLeftButtonUp="Mini_MouseLeftButtonDown"
                                     >
                                 <Viewbox Width="25"
                                          Height="25">
@@ -155,12 +156,36 @@
             <Grid Background="#FAFAFA"
                   Grid.Column="0">
                 <TextBox x:Name="Hour_TextBox" HorizontalAlignment="Left" Height="36" Margin="15,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontSize="24
-                         " Text="06" IsEnabled="False"/>
+                         " Text="06" IsEnabled="False">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding HourChanged}" 
+                                                   CommandParameter="{Binding ElementName=Hour_TextBox}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
                 <Label Content=":" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="99,158,0,0" FontSize="24" />
-                <TextBox x:Name="Miniute_TextBox" HorizontalAlignment="Left" Height="36" Margin="132,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontSize="24" IsEnabled="False" RenderTransformOrigin="0.48,1.192" Text="00"/>
-                <TextBox x:Name="Second_TextBox" HorizontalAlignment="Center" Height="36" Margin="233,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontSize="24" Text="00" IsEnabled="False"/>
+                <TextBox x:Name="Miniute_TextBox" HorizontalAlignment="Left" Height="36" Margin="132,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontSize="24" IsEnabled="False" RenderTransformOrigin="0.48,1.192" Text="00">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding MinuteChanged}" 
+                                                   CommandParameter="{Binding ElementName=Miniute_TextBox}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+                <TextBox x:Name="Second_TextBox" HorizontalAlignment="Center" Height="36" Margin="233,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontSize="24" Text="00" IsEnabled="False">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding SecondChanged}" 
+                                                   CommandParameter="{Binding ElementName=Second_TextBox}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
                 <Label Content=":" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,158,0,0" FontSize="20"/>
                 <Label Content="倒计时更新" HorizontalAlignment="Left" Margin="15,100,0,0" VerticalAlignment="Top" FontSize="22"/>
+                <Button x:Name="Update_Button" Content="更新" HorizontalAlignment="Left" Margin="18,307,0,0" VerticalAlignment="Top" Width="95" RenderTransformOrigin="-0.797,-1.656" Height="44" FontSize="20"
+                        Command="{Binding UpdateProxyCommand}"
+                        MouseDoubleClick="TimeReset_MouseLeftButtonDown"/>
 
             </Grid>
             <Grid Background="#FAFAFA"
@@ -216,38 +241,8 @@
                          FontSize="15" VerticalContentAlignment="Center" IsEnabled="False" Margin="0,0,0,0"/>
                 </Grid>
                 <Grid Grid.Row="3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="46*"/>
-                        <ColumnDefinition Width="77*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <ListView ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                      ScrollViewer.VerticalScrollBarVisibility="Visible"
-                      Cursor="Hand"
-                      Name="DateTimeList"
-                          ItemsSource="{Binding nowDateTimes}" Margin="0,0,0,0">
-                            <!--事件绑定部分-->
-                            <!--数据模板部分-->
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal"
-                                        Height="50"
-                                        VerticalAlignment="Center"
-                                        >
-
-                                        <StackPanel Orientation="Vertical"
-                                            VerticalAlignment="Center"
-                                            Margin="5 0">
-                                            <TextBlock FontSize="13"
-                                               Foreground="Black"
-                                               Text="{Binding nowDateTime}" />
-                                        </StackPanel>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </Grid>
-                    <Grid Grid.Column="1">
+                  
+                 
                         <ListView ScrollViewer.HorizontalScrollBarVisibility="Visible"
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                       Cursor="Hand"
@@ -274,7 +269,7 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </Grid>
-                </Grid>
+                
             </Grid>
         </Grid>
         <StatusBar HorizontalAlignment="Left" Height="27" Margin="0,483,0,-0.4" Grid.Row="1" VerticalAlignment="Top" Width="735" Grid.RowSpan="2"/>

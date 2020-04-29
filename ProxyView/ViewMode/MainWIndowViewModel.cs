@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using ProxyView.DataModel;
+using ProxyView;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using ProxyView.Model;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -25,6 +26,10 @@ namespace ProxyView.ViewMode
         public DelegateCommand MiniCommand { get; set; }
         public DelegateCommand MaxCommand { get; set; }
         public DelegateCommand<object>UpdateUrl { get; set; }
+        public DelegateCommand UpdateProxyCommand { get; set; }
+        public DelegateCommand<object> SecondChanged { get; set; }
+        public DelegateCommand<object> MinuteChanged { get; set; }
+        public DelegateCommand<object> HourChanged { get; set; }
         //public DelegateCommand<object> SelectItemChangedCommand { get; set; }
         public DelegateCommand<object> SelectItemUrlChangedCommand { get; set; }
         public MainWindowViewModel()
@@ -35,6 +40,10 @@ namespace ProxyView.ViewMode
            
             logList = new ObservableCollection<UserData.Log>();
             datetimeList = new ObservableCollection<UserData.DateTimes>();
+            //时间初始化部分，需要同页面前设置一致
+            int Hour_ = 6;
+            int Minute_ = 0;
+            int Second_ = 0;
             //初始化UrlList
             UserData.User user_ = users[0];
             for (int i = 0; i < user_.urls.Count(); i++)
@@ -64,6 +73,53 @@ namespace ProxyView.ViewMode
                     Application.Current.MainWindow.WindowState = WindowState.Normal;
                     this.MaxFlag = false;
                 }
+            });
+            //更新代理部分
+            UpdateProxyCommand = new DelegateCommand(() =>
+            {
+                ProxyUpdate();
+            });
+            
+            //数据更新函数
+            void ProxyUpdate()
+            {
+                ProxyUpdate proxyUpdateCommand = new ProxyUpdate();
+                proxyUpdateCommand.ProcessRequest();
+                //数据部分的更新内容
+                mainData = new UserData();
+                users = mainData.GetUsers();
+                urlList.Clear();
+                logList.Clear();
+                for (int i = 0; i < users[0].urls.Count(); i++)
+                {
+                    urlList.Add(users[0].urls[i]);
+                    datetimeList.Add(users[0].datetimes[i]);
+                }
+            }
+            //倒计时部分
+            SecondChanged = new DelegateCommand<object>((p) =>
+            {
+                TextBox second_textbox = p as TextBox;
+
+                string second_text = second_textbox.Text;
+                Second_ = Convert.ToInt32(second_text);
+                int Second_sum = Second_ + Minute_ * 60 + Hour_ * 3600;
+                if(Second_sum == 0)
+                {
+                    ProxyUpdate();
+                }
+            });
+            MinuteChanged = new DelegateCommand<object>((p) =>
+            {
+                TextBox Minute_TextBox = p as TextBox;
+                string minute_text = Minute_TextBox.Text;
+                Minute_ = Convert.ToInt32(minute_text);
+            });
+            HourChanged = new DelegateCommand<object>((p) =>
+            {
+                TextBox hour_textbox = p as TextBox;
+                string hour_text = hour_textbox.Text;
+                Hour_ = Convert.ToInt32(hour_text);
             });
             /*
             SelectItemChangedCommand = new DelegateCommand<object>((p) =>
@@ -111,12 +167,18 @@ namespace ProxyView.ViewMode
                 
                 logList.Clear();
                 nowdatetimeList.Clear();
+                if (url_ == null)
+                {
+                    logList.Clear();
+                    return;
+                }
                 for (int i = 0; i < url_.Logs.Count(); i++)
                 {
                     logList.Add(url_.Logs[i]);
                     nowdatetimeList.Add(url_.NowDateTimes[i]);
                 }
             });
+
         }
 
 

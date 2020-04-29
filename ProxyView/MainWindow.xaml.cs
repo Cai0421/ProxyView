@@ -27,8 +27,10 @@ namespace ProxyView
         WindowState ws;
         WindowState wsl;
         NotifyIcon notifyIcon;
-        private DispatcherTimer timer;
+        private DispatcherTimer timer = new DispatcherTimer();
         private ProcessCount processCount;
+        
+        //.AddHandler(Button.MouseLeftButtonDownEvent, new MouseButtonEventHandler(this.Button_MouseLeftButtonDown), true);
         public MainWindow()
         {
             InitializeComponent();
@@ -36,6 +38,8 @@ namespace ProxyView
             icon();
             wsl = WindowState;
             this.Loaded += new RoutedEventHandler(MainWin_Loaded);
+            this.Update_Button.AddHandler(System.Windows.Controls.Button.MouseLeftButtonDownEvent, new MouseButtonEventHandler(this.TimeReset_MouseLeftButtonDown), true);
+            this.Mini_Button.AddHandler(System.Windows.Controls.Button.MouseLeftButtonDownEvent, new MouseButtonEventHandler(this.Mini_MouseLeftButtonDown), true);
         }
 
         //icon设置
@@ -57,8 +61,8 @@ namespace ProxyView
         private void MainWin_Loaded(object sender, RoutedEventArgs e)
         {
             //设置定时器
+
             
-            timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(10000000);   //时间间隔为一秒
             timer.Tick += new EventHandler(timer_Tick);
 
@@ -74,6 +78,35 @@ namespace ProxyView
             //开启定时器
             timer.Start();
         }
+        //定时器重置部分
+        private void TimeReset_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.timer_reset();
+        }
+        private void timer_reset()
+        {
+            timer.Stop();
+
+            //timer.Interval = new TimeSpan(10000000);   //时间间隔为一秒
+            //timer.Tick += new EventHandler(timer_Tick);
+            this.Hour_TextBox.Text = "06";
+            this.Miniute_TextBox.Text = "00";
+            this.Second_TextBox.Text = "00";
+            //转换成秒数
+            Int32 hour = Convert.ToInt32(Hour_TextBox.Text);
+            Int32 minute = Convert.ToInt32(Miniute_TextBox.Text);
+            Int32 second = Convert.ToInt32(Second_TextBox.Text);
+
+            //处理倒计时的类
+            processCount = new ProcessCount(hour * 3600 + minute * 60 + second);
+            CountDown += new CountDownHandler(processCount.ProcessCountDown);
+
+            //开启定时器
+            timer.Start();
+        }
+
+
+
         private void timer_Tick(object sender, EventArgs e)
         {
             if (OnCountDown())
@@ -81,6 +114,12 @@ namespace ProxyView
                 Hour_TextBox.Text = processCount.GetHour();
                 Miniute_TextBox.Text = processCount.GetMinute();
                 Second_TextBox.Text = processCount.GetSecond();
+                if (Hour_TextBox.Text == "00" && Miniute_TextBox.Text == "00" && Second_TextBox.Text == "00")
+                {
+                    this.timer_reset();
+                    MainWindowViewModel dataModel = new MainWindowViewModel();
+                    
+                }
             }
             else
                 timer.Stop();
