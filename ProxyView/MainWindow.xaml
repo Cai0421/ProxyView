@@ -153,6 +153,13 @@
 
             <Grid Background="#FAFAFA"
                   Grid.Column="0">
+                <TextBox x:Name="Hour_TextBox" HorizontalAlignment="Left" Height="36" Margin="54,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontSize="20
+                         "/>
+                <Label Content=":" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="139,141,0,0" FontSize="20"/>
+                <TextBox x:Name="Miniute_TextBox" HorizontalAlignment="Left" Height="36" Margin="171,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontSize="20                          " RenderTransformOrigin="0.48,1.192"/>
+                <TextBox x:Name="Second_TextBox" HorizontalAlignment="Left" Height="36" Margin="273,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontSize="20                          "/>
+                <Label Content=":" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="255,141,0,0" FontSize="20"/>
+                <Label Content="倒计时更新" HorizontalAlignment="Left" Margin="54,100,0,0" VerticalAlignment="Top" FontSize="22"/>
 
             </Grid>
             <Grid Background="#FAFAFA"
