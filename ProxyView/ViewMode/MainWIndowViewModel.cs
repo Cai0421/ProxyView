@@ -25,15 +25,23 @@ namespace ProxyView.ViewMode
         public DelegateCommand MiniCommand { get; set; }
         public DelegateCommand MaxCommand { get; set; }
         public DelegateCommand<object>UpdateUrl { get; set; }
-        public DelegateCommand<object> SelectItemChangedCommand { get; set; }
+        //public DelegateCommand<object> SelectItemChangedCommand { get; set; }
         public DelegateCommand<object> SelectItemUrlChangedCommand { get; set; }
         public MainWindowViewModel()
         {
             mainData = new UserData();
             users = mainData.GetUsers();
             urlList = new ObservableCollection<UserData.Url>();
+           
             logList = new ObservableCollection<UserData.Log>();
             datetimeList = new ObservableCollection<UserData.DateTimes>();
+            //初始化UrlList
+            UserData.User user_ = users[0];
+            for (int i = 0; i < user_.urls.Count(); i++)
+            {
+                urlList.Add(user_.urls[i]);
+                datetimeList.Add(user_.datetimes[i]);
+            }
             nowdatetimeList = new ObservableCollection<UserData.NowDateTime>();
             CloseCommand = new DelegateCommand(() =>
             {
@@ -57,7 +65,7 @@ namespace ProxyView.ViewMode
                     this.MaxFlag = false;
                 }
             });
-
+            /*
             SelectItemChangedCommand = new DelegateCommand<object>((p) =>
             {
                 ListView lv = p as ListView;
@@ -79,7 +87,7 @@ namespace ProxyView.ViewMode
                     datetimeList.Add(user_.datetimes[i]);
                 }
             });
-
+            */
             UpdateUrl = new DelegateCommand<object>((p) =>
             {
                 int index_user = Convert.ToInt32(p);
