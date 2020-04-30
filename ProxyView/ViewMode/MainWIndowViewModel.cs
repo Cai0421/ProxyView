@@ -18,14 +18,23 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace ProxyView.ViewMode
-{ 
-    
+{
+
     class MainWindowViewModel : BindableBase
     {
+        private UserData mainData;
+        private ObservableCollection<UserData.User> users;
+        private ObservableCollection<UserData.Url> urlList;
+        private ObservableCollection<UserData.Log> logList;
+        private ObservableCollection<UserData.DateTimes> datetimeList;
+        private ObservableCollection<UserData.NowDateTime> nowdatetimeList;
+        private bool MaxFlag = false;
+        private bool change = true;
+
         public DelegateCommand CloseCommand { get; set; }
         public DelegateCommand MiniCommand { get; set; }
         public DelegateCommand MaxCommand { get; set; }
-        public DelegateCommand<object>UpdateUrl { get; set; }
+        public DelegateCommand<object> UpdateUrl { get; set; }
         public DelegateCommand UpdateProxyCommand { get; set; }
         public DelegateCommand<object> SecondChanged { get; set; }
         public DelegateCommand<object> MinuteChanged { get; set; }
@@ -37,7 +46,7 @@ namespace ProxyView.ViewMode
             mainData = new UserData();
             users = mainData.GetUsers();
             urlList = new ObservableCollection<UserData.Url>();
-           
+
             logList = new ObservableCollection<UserData.Log>();
             datetimeList = new ObservableCollection<UserData.DateTimes>();
             //时间初始化部分，需要同页面前设置一致
@@ -54,7 +63,7 @@ namespace ProxyView.ViewMode
             nowdatetimeList = new ObservableCollection<UserData.NowDateTime>();
             CloseCommand = new DelegateCommand(() =>
             {
-                
+
                 Application.Current.Shutdown();
             });
             MiniCommand = new DelegateCommand(() =>
@@ -63,7 +72,7 @@ namespace ProxyView.ViewMode
             });
             MaxCommand = new DelegateCommand(() =>
             {
-                if(this.MaxFlag == false)
+                if (this.MaxFlag == false)
                 {
                     Application.Current.MainWindow.WindowState = WindowState.Maximized;
                     this.MaxFlag = true;
@@ -79,23 +88,9 @@ namespace ProxyView.ViewMode
             {
                 ProxyUpdate();
             });
-            
+
             //数据更新函数
-            void ProxyUpdate()
-            {
-                ProxyUpdate proxyUpdateCommand = new ProxyUpdate();
-                proxyUpdateCommand.ProcessRequest();
-                //数据部分的更新内容
-                mainData = new UserData();
-                users = mainData.GetUsers();
-                urlList.Clear();
-                logList.Clear();
-                for (int i = 0; i < users[0].urls.Count(); i++)
-                {
-                    urlList.Add(users[0].urls[i]);
-                    datetimeList.Add(users[0].datetimes[i]);
-                }
-            }
+
             //倒计时部分
             SecondChanged = new DelegateCommand<object>((p) =>
             {
@@ -104,7 +99,7 @@ namespace ProxyView.ViewMode
                 string second_text = second_textbox.Text;
                 Second_ = Convert.ToInt32(second_text);
                 int Second_sum = Second_ + Minute_ * 60 + Hour_ * 3600;
-                if(Second_sum == 0)
+                if (Second_sum == 0)
                 {
                     ProxyUpdate();
                 }
@@ -156,7 +151,7 @@ namespace ProxyView.ViewMode
 
             SelectItemUrlChangedCommand = new DelegateCommand<object>((p) =>
             {
-                if(change == false)
+                if (change == false)
                 {
                     change = true;
                     return;
@@ -164,7 +159,7 @@ namespace ProxyView.ViewMode
                 ListView lv = p as ListView;
                 UserData.DateTimes datetimes_ = lv.SelectedItem as UserData.DateTimes;
                 UserData.Url url_ = lv.SelectedItem as UserData.Url;
-                
+
                 logList.Clear();
                 nowdatetimeList.Clear();
                 if (url_ == null)
@@ -181,20 +176,27 @@ namespace ProxyView.ViewMode
 
         }
 
+        public void ProxyUpdate()
+        {
+            ProxyUpdate proxyUpdateCommand = new ProxyUpdate();
+            proxyUpdateCommand.ProcessRequest();
+            //数据部分的更新内容
+            mainData = new UserData();
+            users = mainData.GetUsers();
+            urlList.Clear();
+            logList.Clear();
+            for (int i = 0; i < users[0].urls.Count(); i++)
+            {
+                urlList.Add(users[0].urls[i]);
+                datetimeList.Add(users[0].datetimes[i]);
+            }
+        }
 
-        private UserData mainData;
-        private ObservableCollection<UserData.User> users;
-        private ObservableCollection<UserData.Url> urlList;
-        private ObservableCollection<UserData.Log> logList;
-        private ObservableCollection<UserData.DateTimes> datetimeList;
-        private ObservableCollection<UserData.NowDateTime> nowdatetimeList;
-        private bool MaxFlag = false;
-        private bool change = true;
         public ObservableCollection<UserData.User> Users
         {
             get { return users; }
             set { SetProperty(ref users, value); }
-            
+
         }
         public ObservableCollection<UserData.Url> Urls
         {

@@ -23,43 +23,12 @@ namespace ProxyView.Model
         private const string publiKeyFileName = "RSA.Pub";
         private const string privateKeyFileName = "RSA.Private";
         private const int RSAKeySize = 512;
-        private const string dirProxyPathName = "D:\\Projects\\C#\\ProxyView\\TestData\\proxy\\";
-        private const string dirLogPathName = "D:\\Projects\\C#\\ProxyView\\TestData\\log\\";
+        private const string dirProxyPathName = "D:\\data\\TestData\\proxy\\";
+        private const string dirLogPathName = "D:\\data\\TestData\\log\\";
         private const string RSApath = "D:\\Projects\\C#\\ProxyView\\TestData\\RSA\\";
 
-        
         public void ProcessRequest()
         {
-            string res = "";
-            //cookie,cors相关header配置
-            /*暂时不需要
-            context.Response.ContentType = "application/json";
-            String origin = context.Request.Headers["Origin"];
-            if (origin == null)
-            {
-                context.Response.AddHeader("Access-Control-Allow-Origin", "*");
-            }
-            else
-            {
-                context.Response.AddHeader("Access-Control-Allow-Origin", origin);
-            }
-            context.Response.AddHeader("Access-Control-Allow-Credentials", "true");
-            */
-            //用户试图登陆时，应通过数据库判断用户身份，此处代替数据库
-            //这部分应在登陆页面调用，成功后再写入cookie
-            /* 暂时默认用户名为user1
-            string user = "";
-            if (context.Request.Cookies["username"] != null)
-            {
-                user = context.Request.Cookies["username"].Value.ToString();
-            }
-            else
-            {
-                res = "{\"msg\":\"No cookie\"}";
-                context.Response.Write(res);
-                return;
-            }
-            */
             string user = "user1";
             //用户身份判断后，应从数据库读取服务url，此处代替数据库
             m_urls = new List<string>();
@@ -88,27 +57,7 @@ namespace ProxyView.Model
             //生成用户专属proxy.config
             m_fake = new List<string>();
             userProxy(user, 1);
-
-            res = "{\"msg\":\"done\",\"urls\":[";
-            foreach (string fake in m_fake)
-            {
-                res += "\"" + fake + "\",";
-            }
-            res = res.Substring(0, res.Length - 1);
-            res += "]}";
-
-            //context.Response.Write(res);
-
-        }
-        
-
-        public bool IsReusable
-        {
-            get
-            {
-                return false;
-            }
-        }
+        }        
 
         public void userProxy(string user, int encrypt_mode)
         {
@@ -210,7 +159,6 @@ namespace ProxyView.Model
             proxy_config.AppendChild(server_urls);
             proxy_doc.Save(dirProxyPathName + user + "_proxy.config");
             log_doc.Save(log_fileName );
-            //日志部分
         }
 
         //RSA加密
