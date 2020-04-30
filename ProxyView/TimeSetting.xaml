@@ -1,0 +1,108 @@
+﻿<Window x:Class="ProxyView.TimeSetting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:local="clr-namespace:ProxyView"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Height="284.4" Width="434.4"
+        >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="363*" />
+
+        </Grid.RowDefinitions>
+
+        <!--顶端部分-->
+        <Grid Grid.Row="0">
+            <materialDesign:ColorZone Mode="PrimaryMid"
+                                      Name="NavBar"
+                                      Height="65"
+                                      
+                                      materialDesign:ShadowAssist.ShadowDepth="Depth3">
+
+                <Grid>
+                    <!--第三个多边形-->
+                    <Polygon Points="780,0 1100,0 1100,65 723,65 "
+                             StrokeThickness="1">
+                        <Polygon.Fill>
+                            <SolidColorBrush Color="#3448A1" />
+                        </Polygon.Fill>
+                    </Polygon>
+                    <!--第二个多边形-->
+                    <Polygon Points="700,0 780,0 740,50 "
+                             StrokeThickness="1">
+                        <Polygon.Fill>
+                            <SolidColorBrush Color="#3E58C9" />
+                        </Polygon.Fill>
+                    </Polygon>
+                    <!--第一个多边形-->
+                    <Polygon Points="0,0 700,0 756,65 0,65"
+                             StrokeThickness="1">
+                        <Polygon.Fill>
+                            <SolidColorBrush Color="#555555" />
+                        </Polygon.Fill>
+                    </Polygon>
+                    <Grid HorizontalAlignment="Right"
+                          Width="150">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Button Height="60"
+                                    Background="{x:Null}"
+                                    BorderBrush="{x:Null}"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                    Padding="0"/>
+                        </Grid>
+                        <!--删除部分-->
+                        <Grid Grid.Column="1"/>
+                        <Grid Grid.Column="2"/>
+                        <Grid Grid.Column="3">
+                            <Button Height="60"
+                                    Background="{x:Null}"
+                                    BorderBrush="{x:Null}"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                    Click="Cancel_Button_Click"
+                                    Padding="0" HorizontalAlignment="Left" Margin="0,2,-0.4,2.8" Width="38" >
+                                <Viewbox Width="33"
+                                         Height="38" RenderTransformOrigin="0.556,-0.24" >
+                                    <Canvas Width="24"
+                                            Height="35">
+                                        <Path Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+                                              Fill="White" Canvas.Top="-5.2" />
+                                    </Canvas>
+                                </Viewbox>
+                            </Button>
+                        </Grid>
+                    </Grid>
+
+
+                </Grid>
+            </materialDesign:ColorZone>
+        </Grid>
+        <Grid Grid.Row="1">
+
+
+            <Grid Background="#FAFAFA"
+                  Grid.Column="0">
+                <Button x:Name="Ok_Button" Content="确定" HorizontalAlignment="Left" Margin="33,180,0,0" VerticalAlignment="Top" Width="113" RenderTransformOrigin="-0.797,-1.656" Height="44" FontSize="20" Background="#444444"
+                        
+                        Click="Ok_Button_Click"/>
+                <Button x:Name="Cancel_Button" Content="取消" HorizontalAlignment="Left" Margin="264,180,0,0" VerticalAlignment="Top" Width="122" RenderTransformOrigin="-0.797,-1.656" Height="44" FontSize="20"
+                    MouseDoubleClick="Cancel_Button_Click" Background="#444444"/>
+                <local:TimeSpanPicker HorizontalAlignment="Left" Margin="129,79,0,0" VerticalAlignment="Top" Height="69" Width="162" x:Name="timePicker" FontSize="40" FontWeight="Bold" Foreground="Red"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
+

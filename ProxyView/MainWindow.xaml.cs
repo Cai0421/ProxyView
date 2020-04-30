@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using System.Windows.Threading;
 using ProxyView.DataModel;
 using ProxyView.Model;
+using ProxyView;
 namespace ProxyView
 {
     /// <summary>
@@ -29,17 +30,23 @@ namespace ProxyView
         NotifyIcon notifyIcon;
         private DispatcherTimer timer = new DispatcherTimer();
         private ProcessCount processCount;
-        
+        //倒计时全局参数
+        string Hour_ = "06";
+        string Minute_ = "00";
+        string Second_ = "00";
         //.AddHandler(Button.MouseLeftButtonDownEvent, new MouseButtonEventHandler(this.Button_MouseLeftButtonDown), true);
+        
         public MainWindow()
         {
             InitializeComponent();
             this.DataContext = new MainWindowViewModel();
+             
             icon();
             wsl = WindowState;
             this.Loaded += new RoutedEventHandler(MainWin_Loaded);
             this.Update_Button.AddHandler(System.Windows.Controls.Button.MouseLeftButtonDownEvent, new MouseButtonEventHandler(this.TimeReset_MouseLeftButtonDown), true);
             this.Mini_Button.AddHandler(System.Windows.Controls.Button.MouseLeftButtonDownEvent, new MouseButtonEventHandler(this.Mini_MouseLeftButtonDown), true);
+            this.Modify_Button.AddHandler(System.Windows.Controls.Button.MouseLeftButtonDownEvent, new MouseButtonEventHandler(this.TimeModify_MouseLeftButtonDown), true);
         }
 
         //icon设置
@@ -89,9 +96,9 @@ namespace ProxyView
 
             //timer.Interval = new TimeSpan(10000000);   //时间间隔为一秒
             //timer.Tick += new EventHandler(timer_Tick);
-            this.Hour_TextBox.Text = "06";
-            this.Miniute_TextBox.Text = "00";
-            this.Second_TextBox.Text = "00";
+            this.Hour_TextBox.Text = Hour_;
+            this.Miniute_TextBox.Text = Minute_;
+            this.Second_TextBox.Text = Second_;
             //转换成秒数
             Int32 hour = Convert.ToInt32(Hour_TextBox.Text);
             Int32 minute = Convert.ToInt32(Miniute_TextBox.Text);
@@ -105,8 +112,30 @@ namespace ProxyView
             timer.Start();
         }
 
+        //定时器修改部分
+        private void TimeModify_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            timer.Stop();
+            TimeSetting timeSettingWindow = new TimeSetting();
+            timeSettingWindow.TransfEvent += DateTime_TransfEvent;
+            timeSettingWindow.Show();
 
+        }
+        //窗口时间注册
+        private void DateTime_TransfEvent(string dateTimeValue)
+        {
+            
+            string[] dateTimeArray = dateTimeValue.Split(':');
+            Hour_ = dateTimeArray[0];
 
+            Minute_ = dateTimeArray[1];
+
+            Second_ = dateTimeArray[2];
+
+            
+            timer.Start();
+            timer_reset();
+        }
         private void timer_Tick(object sender, EventArgs e)
         {
             if (OnCountDown())
@@ -117,8 +146,7 @@ namespace ProxyView
                 if (Hour_TextBox.Text == "00" && Miniute_TextBox.Text == "00" && Second_TextBox.Text == "00")
                 {
                     this.timer_reset();
-                    MainWindowViewModel dataModel = new MainWindowViewModel();
-                    
+                    //MainWindowViewModel dataModel = new MainWindowViewModel();
                 }
             }
             else

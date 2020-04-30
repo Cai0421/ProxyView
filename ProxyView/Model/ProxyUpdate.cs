@@ -23,8 +23,8 @@ namespace ProxyView.Model
         private const string publiKeyFileName = "RSA.Pub";
         private const string privateKeyFileName = "RSA.Private";
         private const int RSAKeySize = 512;
-        private const string dirProxyPathName = "D:\\data\\TestData\\proxy\\";
-        private const string dirLogPathName = "D:\\data\\TestData\\log\\";
+        private const string dirProxyPathName = "D:\\Projects\\C#\\ProxyView\\TestData\\proxy\\";
+        private const string dirLogPathName = "D:\\Projects\\C#\\ProxyView\\TestData\\log\\";
         private const string RSApath = "D:\\Projects\\C#\\ProxyView\\TestData\\RSA\\";
 
         public void ProcessRequest()

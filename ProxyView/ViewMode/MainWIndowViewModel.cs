@@ -41,6 +41,10 @@ namespace ProxyView.ViewMode
         public DelegateCommand<object> HourChanged { get; set; }
         //public DelegateCommand<object> SelectItemChangedCommand { get; set; }
         public DelegateCommand<object> SelectItemUrlChangedCommand { get; set; }
+        //时间初始化部分，需要同页面前设置一致
+        int Hour_ = 6;
+        int Minute_ = 0;
+        int Second_ = 0;
         public MainWindowViewModel()
         {
             mainData = new UserData();
@@ -49,10 +53,7 @@ namespace ProxyView.ViewMode
 
             logList = new ObservableCollection<UserData.Log>();
             datetimeList = new ObservableCollection<UserData.DateTimes>();
-            //时间初始化部分，需要同页面前设置一致
-            int Hour_ = 6;
-            int Minute_ = 0;
-            int Second_ = 0;
+           
             //初始化UrlList
             UserData.User user_ = users[0];
             for (int i = 0; i < user_.urls.Count(); i++)
@@ -86,7 +87,7 @@ namespace ProxyView.ViewMode
             //更新代理部分
             UpdateProxyCommand = new DelegateCommand(() =>
             {
-                ProxyUpdate();
+                ProxyUpdate_();
             });
 
             //数据更新函数
@@ -101,7 +102,7 @@ namespace ProxyView.ViewMode
                 int Second_sum = Second_ + Minute_ * 60 + Hour_ * 3600;
                 if (Second_sum == 0)
                 {
-                    ProxyUpdate();
+                    ProxyUpdate_();
                 }
             });
             MinuteChanged = new DelegateCommand<object>((p) =>
@@ -173,10 +174,17 @@ namespace ProxyView.ViewMode
                     nowdatetimeList.Add(url_.NowDateTimes[i]);
                 }
             });
-
+           
         }
 
-        public void ProxyUpdate()
+      
+        public void DateTimeChange(string hour_s, string minute_s, string second_s)
+        {
+            Hour_ = Convert.ToInt32(hour_s);
+            Minute_ = Convert.ToInt32(minute_s);
+            Second_ = Convert.ToInt32(second_s);
+        }
+        public void ProxyUpdate_()
         {
             ProxyUpdate proxyUpdateCommand = new ProxyUpdate();
             proxyUpdateCommand.ProcessRequest();
@@ -191,7 +199,6 @@ namespace ProxyView.ViewMode
                 datetimeList.Add(users[0].datetimes[i]);
             }
         }
-
         public ObservableCollection<UserData.User> Users
         {
             get { return users; }
