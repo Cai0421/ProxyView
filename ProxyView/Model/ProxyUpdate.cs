@@ -23,37 +23,36 @@ namespace ProxyView.Model
         private const string publiKeyFileName = "RSA.Pub";
         private const string privateKeyFileName = "RSA.Private";
         private const int RSAKeySize = 512;
-        private const string dirProxyPathName = "D:\\Projects\\C#\\ProxyView\\TestData\\proxy\\";
-        private const string dirLogPathName = "D:\\Projects\\C#\\ProxyView\\TestData\\log\\";
+        //private const string dirProxyPathName = "D:\\data\\TestData\\proxy\\";
+        //private const string dirLogPathName = "D:\\data\\TestData\\log\\";
+        private const string dirProxyPathName = "C:/System/wudaTest/proxyTest/";
+        private const string dirLogPathName = "C:/System/wudaTest/proxyTest/";
         private const string RSApath = "D:\\Projects\\C#\\ProxyView\\TestData\\RSA\\";
 
         public void ProcessRequest()
         {
-            string user = "user1";
+            string user = "global";
             //用户身份判断后，应从数据库读取服务url，此处代替数据库
             m_urls = new List<string>();
             m_usernames = new List<string>();
             m_passwords = new List<string>();
             m_tokens = new List<string>();
 
-            m_urls.Add("http://localhost:6080/arcgis/rest/services/Wuhan/WHadm/MapServer");
-            m_usernames.Add("");
-            m_passwords.Add("");
-            m_tokens.Add("");
-            m_urls.Add("http://localhost:6080/arcgis/rest/services/Wuhan/WHroad/MapServer");
-            m_usernames.Add("");
-            m_passwords.Add("");
-            m_tokens.Add("");
-            /*
-                m_urls.Add("https://services7.arcgis.com/w7PjH9AjCWXYUyuB/arcgis/rest/services/wuhan/FeatureServer");
-                m_usernames.Add("yxs1995");
-                m_passwords.Add("zhydsb1995712");
-                m_tokens.Add("https://yxs1995.com/portal/sharing/generateToken");
-            m_urls.Add("https://services7.arcgis.com/w7PjH9AjCWXYUyuB/arcgis/rest/services/wuhan_road/FeatureServer");
-                m_usernames.Add("yxs1995");
-                m_passwords.Add("zhydsb1995712");
-                m_tokens.Add("https://yxs1995.com/portal/sharing/generateToken");
-            */
+            m_urls.Add("http://192.168.10.120:6080/arcgis/rest/services");
+            m_usernames.Add("svr120");
+            m_passwords.Add("DkzxSVR_003");
+            m_tokens.Add("http://192.168.10.120:6080/arcgis/tokens");
+
+            m_urls.Add("http://192.168.10.153:6080/arcgis/rest/services");
+            m_usernames.Add("Wlsp_HDY");
+            m_passwords.Add("Dkzx_Hdy@2020");
+            m_tokens.Add("http://192.168.10.153:6080/arcgis/tokens");
+
+            m_urls.Add("http://192.168.10.153:6080/arcgis/rest/directories/arcgisoutput");
+            m_usernames.Add("Wlsp_HDY");
+            m_passwords.Add("Dkzx_Hdy@2020");
+            m_tokens.Add("http://192.168.10.153:6080/arcgis/tokens");
+
             //生成用户专属proxy.config
             m_fake = new List<string>();
             userProxy(user, 1);
@@ -154,11 +153,14 @@ namespace ProxyView.Model
                 {
                     proxy_child_url.SetAttribute("tokenServiceUri", token);
                 }
+                proxy_child_url.SetAttribute("expiration", "1440");
                 server_urls.AppendChild(proxy_child_url);
             }
             proxy_config.AppendChild(server_urls);
             proxy_doc.Save(dirProxyPathName + user + "_proxy.config");
             log_doc.Save(log_fileName );
+            updateServiceUrl();
+            updateMapUrl();
         }
 
         //RSA加密
@@ -234,5 +236,138 @@ namespace ProxyView.Model
             return Convert.ToBase64String(resultA, 0, resultA.Length);
         }
 
+        //service.js
+        public void updateServiceUrl()
+        {
+            //待匹配
+            List<string> scripts =new List<string>();
+            scripts.Add("var poiService1 =");
+            scripts.Add("var m_strSubwayUrl1 =");
+            scripts.Add("var m_strSubwayUrlPlan1 =");
+            scripts.Add("var m_strBusUrl1 =");
+            scripts.Add("var ZSY_PointLayerUrl1 =");
+            scripts.Add("var geometryServiceUrl1 =");
+            scripts.Add("var zsdkUrl1 = ");
+            scripts.Add("var zsyGNQUrl1 =");
+            scripts.Add("var zsyTDTJXMUrl1 =");
+            scripts.Add("var thUrl1 =");
+            scripts.Add("var poiMobileUrl1 =");
+            scripts.Add("var zsyGNQPTUrl1 =");
+            scripts.Add("var HDY_ExtentMaskLayer1 =");
+            scripts.Add("var HDY_2ExtentMaskLayer1 =");
+
+            List<string> patterns = new List<string>();
+            foreach (string s in scripts)
+            {
+                patterns.Add("(?<="+s+" \").+(?=\")");
+            }
+            //读文件匹配
+            List<string> lines = new List<string>();
+            //string path = "D://data//TestData//service.js";
+            string path1 = "C:/System/wudaTest/proxyTest/service.js";
+            string path = "C://System//武汉汉地云测试版//js//service.js";
+            StreamReader sr = new StreamReader(path1);
+            string line;
+            while((line=sr.ReadLine())!=null)
+            {
+                bool flag = false;
+                for(int i=0;i<patterns.Count;i++)
+                {
+                    string p=patterns[i];
+                    System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(line, p);
+                    string b1 = match.Value;
+                    if (b1 != "") {
+                        byte[] b = Convert.FromBase64String(b1);
+                        string s1 = System.Text.ASCIIEncoding.Default.GetString(b).Replace("https","http").Replace("6443","6080");
+                        //replace
+                        for(int j=0;j<m_urls.Count;j++)
+                        {
+                            s1=s1.Replace(m_urls[j],m_fake[j]);
+                        }
+                        System.Text.Encoding encode = System.Text.Encoding.ASCII;
+                        b = encode.GetBytes(s1);
+                        string s2 = Convert.ToBase64String(b, 0, b.Length);
+                        lines.Add(scripts[i] + "\"" + s2 + "\";");
+                        flag = true;
+                        break;
+                    }
+                }
+                if(flag==false)
+                {
+                    lines.Add(line);
+                }
+            }
+            sr.Close();
+            //update
+            StreamWriter sw = new StreamWriter(path,false);
+            foreach(string nline in lines)
+            {
+                sw.WriteLine(nline);
+            }
+            sw.Flush();
+            sw.Close();
+        }
+
+        public void updateMapUrl()
+        {
+            //待匹配
+            List<string> scripts = new List<string>();
+            scripts.Add("var vecUrl =");
+            scripts.Add("var zbUrl =");
+            scripts.Add("var demUrl =");
+            scripts.Add("var url =");
+
+            List<string> patterns = new List<string>();
+            foreach (string s in scripts)
+            {
+                patterns.Add("(?<=" + s + " \").+(?=\")");
+            }
+            //读文件匹配
+            List<string> lines = new List<string>();
+            //string path = "D://data//TestData//Map.Config.js";
+            string path1 = "C:/System/wudaTest/proxyTest//Map.Config.js";
+            string path = "C://System//武汉汉地云测试版//js//Map.Config.js";
+            StreamReader sr = new StreamReader(path1);
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                bool flag = false;
+                for (int i = 0; i < patterns.Count; i++)
+                {
+                    string p = patterns[i];
+                    System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(line, p);
+                    string b1 = match.Value;
+                    if (b1 != "")
+                    {
+                        byte[] b = Convert.FromBase64String(b1);
+                        string s1 = System.Text.ASCIIEncoding.Default.GetString(b).Replace("https", "http").Replace("6443", "6080");
+                        //replace
+                        for (int j = 0; j < m_urls.Count; j++)
+                        {
+                            s1 = s1.Replace(m_urls[j], m_fake[j]);
+                        }
+                        System.Text.Encoding encode = System.Text.Encoding.ASCII;
+                        b = encode.GetBytes(s1);
+                        string s2 = Convert.ToBase64String(b, 0, b.Length);
+                        lines.Add(scripts[i] + "\"" + s2 + "\";");
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag == false)
+                {
+                    lines.Add(line);
+                }
+            }
+            sr.Close();
+            //update
+            StreamWriter sw = new StreamWriter(path, false);
+            foreach (string nline in lines)
+            {
+                sw.WriteLine(nline);
+            }
+            sw.Flush();
+            sw.Close();
+        }
     }
 }

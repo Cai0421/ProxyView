@@ -11,85 +11,37 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         ResizeMode="NoResize"
-        Height="426.8" Width="735.2"
+        Height="440" Width="647.2"
         >
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="45*" />
-            <RowDefinition Height="363*" />
-
+            <RowDefinition Height="40" />
+            <RowDefinition Height="400" />
         </Grid.RowDefinitions>
 
         <!--顶端部分-->
         <Grid Grid.Row="0">
-            <materialDesign:ColorZone Mode="PrimaryMid"
+            <materialDesign:ColorZone Mode="Dark"
                                       Name="NavBar"
-                                      Height="65"
                                       MouseLeftButtonDown="NavBar_MouseLeftButtonDown"
                                       materialDesign:ShadowAssist.ShadowDepth="Depth3">
 
                 <Grid>
-                    <!--第三个多边形-->
-                    <Polygon Points="780,0 1100,0 1100,65 723,65 "
-                             StrokeThickness="1">
-                        <Polygon.Fill>
-                            <SolidColorBrush Color="#3448A1" />
-                        </Polygon.Fill>
-                    </Polygon>
-                    <!--第二个多边形-->
-                    <Polygon Points="700,0 780,0 740,50 "
-                             StrokeThickness="1">
-                        <Polygon.Fill>
-                            <SolidColorBrush Color="#444444" />
-                        </Polygon.Fill>
-                    </Polygon>
-                    <!--第一个多边形-->
-                    <Polygon Points="0,0 700,0 756,65 0,65"
-                             StrokeThickness="1">
-                        <Polygon.Fill>
-                            <SolidColorBrush Color="#555555" />
-                        </Polygon.Fill>
-                    </Polygon>
-                    <Menu Cursor="Hand"
-                             HorizontalAlignment="Left"
-                             Margin="10,4,0,26.8"
-                             Width="35" RenderTransformOrigin="-0.72,0.524">
-                        <!--
-                        <MenuItem Header="" Cursor="Hand"
-                             HorizontalAlignment="Left"
-                             Width="48"
-                             Height="52" RenderTransformOrigin="-0.72,0.524"
-                             >
-                            <MenuItem.Background>
-                                <ImageBrush ImageSource="icon/github.png"/>
-                            </MenuItem.Background>
-                            <MenuItem Header="更新代理" RenderTransformOrigin="0.437,1.763"/>
-                        </MenuItem>
-                        -->
-
+                    <Menu HorizontalAlignment="Left" Margin="5 5 5 5"
+                          Width="30" RenderTransformOrigin="-0.72,0.524">
                         <Menu.Background>
-                            <ImageBrush  ImageSource="icon/github.png" />
+                            <ImageBrush  ImageSource="Icon/title.png" />
                         </Menu.Background>
 
                     </Menu>
                     <Grid HorizontalAlignment="Right"
-                          Width="150">
+                          Width="100">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0">
-                            <Button Height="60"
-                                    Background="{x:Null}"
-                                    BorderBrush="{x:Null}"
-                                    materialDesign:ShadowAssist.ShadowDepth="Depth1"
-                                    Padding="0"/>
-                        </Grid>
-                        <!--删除部分-->
-                        <Grid Grid.Column="1">
-                            <Button Height="60"
+                            <Button Height="40"
                                     Background="{x:Null}"
                                     BorderBrush="{x:Null}"
                                     x:Name="Mini_Button"
@@ -107,25 +59,8 @@
                                 </Viewbox>
                             </Button>
                         </Grid>
-                        <Grid Grid.Column="2">
-                            <Button Height="60"
-                                    Background="{x:Null}"
-                                    BorderBrush="{x:Null}"
-                                    materialDesign:ShadowAssist.ShadowDepth="Depth1"
-                                    Padding="0"
-                                    Command="{Binding MaxCommand}">
-                                <Viewbox Width="25"
-                                         Height="25">
-                                    <Canvas Width="24"
-                                            Height="24">
-                                        <Path Data="M4,4H20V20H4V4M6,8V18H18V8H6Z"
-                                              Fill="White" />
-                                    </Canvas>
-                                </Viewbox>
-                            </Button>
-                        </Grid>
-                        <Grid Grid.Column="3">
-                            <Button Height="60"
+                        <Grid Grid.Column="1">
+                            <Button Height="40"
                                     Background="{x:Null}"
                                     BorderBrush="{x:Null}"
                                     materialDesign:ShadowAssist.ShadowDepth="Depth1"
@@ -147,17 +82,16 @@
                 </Grid>
             </materialDesign:ColorZone>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="Black">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90*"/>
-                <ColumnDefinition Width="120*"/>
+                <ColumnDefinition Width="247.2"/>
+                <ColumnDefinition Width="400"/>
 
             </Grid.ColumnDefinitions>
-
-            <Grid Background="#FAFAFA"
+            <Grid Background="#FAFAFA" 
                   Grid.Column="0">
-                <TextBox x:Name="Hour_TextBox" HorizontalAlignment="Left" Height="44" Margin="45,148,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="54" 
-                         FontSize="32" Text="06" IsEnabled="False" Foreground="Red" FontWeight="Bold">
+                <TextBox x:Name="Hour_TextBox" HorizontalAlignment="Left" Height="40" Margin="25,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="54" 
+                         FontSize="24" Text="06" IsEnabled="False" Foreground="Red" FontWeight="Bold">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TextChanged">
                             <i:InvokeCommandAction Command="{Binding HourChanged}" 
@@ -165,9 +99,9 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
-                <Label Content=":" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="104,148,0,0" FontSize="28" />
-                <TextBox x:Name="Miniute_TextBox" HorizontalAlignment="Left" Height="44" Margin="123,148,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" 
-                         FontSize="32" IsEnabled="False" RenderTransformOrigin="0.48,1.192" Text="00" Foreground="Red" FontWeight="Bold">
+                <Label Content=":" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,137,0,0" FontSize="24" />
+                <TextBox x:Name="Miniute_TextBox" HorizontalAlignment="Left" Height="40" Margin="84,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" 
+                         FontSize="24" IsEnabled="False" RenderTransformOrigin="0.48,1.192" Text="00" Foreground="Red" FontWeight="Bold">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TextChanged">
                             <i:InvokeCommandAction Command="{Binding MinuteChanged}" 
@@ -175,8 +109,8 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
-                <TextBox x:Name="Second_TextBox" HorizontalAlignment="Center" Height="46" Margin="201,148,43.2,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="71" 
-                         FontSize="32" Text="00" IsEnabled="False" Foreground="Red" FontWeight="Bold">
+                <TextBox x:Name="Second_TextBox" HorizontalAlignment="Left" Height="40" Margin="149,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" 
+                         FontSize="24" Text="00" IsEnabled="False" Foreground="Red" FontWeight="Bold">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TextChanged">
                             <i:InvokeCommandAction Command="{Binding SecondChanged}" 
@@ -184,8 +118,8 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
-                <Label Content=":" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="182,148,0,0" FontSize="28"/>
-                <Label Content="下次更新剩余时间" HorizontalAlignment="Left" Margin="30,75,0,0" VerticalAlignment="Top" FontSize="28" FontWeight="Bold" Height="45" Width="263"/>
+                <Label Content=":" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="130,137,0,0" FontSize="24"/>
+                <Label Content="下次更新剩余时间" HorizontalAlignment="Left" Margin="30,75,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Height="45" Width="179"/>
                 <Button x:Name="Update_Button" Content="手动更新" HorizontalAlignment="Left" Margin="45,208,0,0" VerticalAlignment="Top" Width="174" RenderTransformOrigin="-0.797,-1.656" Height="44" FontSize="20"
                         Command="{Binding UpdateProxyCommand}"
                         MouseDoubleClick="TimeReset_MouseLeftButtonDown"
@@ -194,6 +128,8 @@
                     MouseDoubleClick="TimeModify_MouseLeftButtonDown" Background="#444444"/>
 
             </Grid>
+
+
             <Grid Background="#FAFAFA"
                   Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -203,14 +139,16 @@
                     <RowDefinition Height="146*"/>
                 </Grid.RowDefinitions>
                 <!--服务URL部分-->
+
                 <Grid Grid.Row ="0">
-                    <TextBox Height="50" TextWrapping="Wrap" Text="服务URL" VerticalAlignment="Top" Width="353" HorizontalAlignment="Left" 
-                         FontSize="15" VerticalContentAlignment="Center" IsEnabled="False" Margin="0,0,0,0" FontWeight="Black"/>
+                    <TextBox Height="30" TextWrapping="Wrap" Text="服务URL" VerticalAlignment="Top" Width="353" HorizontalAlignment="Left" 
+                         FontSize="12" VerticalContentAlignment="Center" IsEnabled="False" Margin="0,0,0,0" FontWeight="Black"/>
                 </Grid>
+
                 <Grid Grid.Row="1">
 
-                    <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    <ListView ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                       Cursor="Hand"
                       Name="UrlList"
                       ItemsSource="{Binding Urls}" Margin="0,0,0,0" Grid.ColumnSpan="2"
@@ -227,7 +165,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal"
-                                        Height="50"
+                                        Height="40"
                                         >
 
                                     <StackPanel Orientation="Vertical"
@@ -243,15 +181,15 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
+
                 <!--历史Url-->
                 <Grid Grid.Row="2">
-                    <TextBox Height="50" TextWrapping="Wrap" Text="历史URL" VerticalAlignment="Top" Width="353" HorizontalAlignment="Left" 
-                         FontSize="15" VerticalContentAlignment="Center" IsEnabled="False" Margin="0,0,0,0" FontWeight="Bold"/>
+                    <TextBox Height="30" TextWrapping="Wrap" Text="历史URL" VerticalAlignment="Top" Width="353" HorizontalAlignment="Left" 
+                         FontSize="12" VerticalContentAlignment="Center" IsEnabled="False" Margin="0,0,0,0" FontWeight="Bold"/>
 
                 </Grid>
+
                 <Grid Grid.Row="3">
-
-
                     <ListView ScrollViewer.HorizontalScrollBarVisibility="Visible"
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                       Cursor="Hand"
@@ -281,6 +219,7 @@
                 </Grid>
 
             </Grid>
+
         </Grid>
     </Grid>
 </Window>

@@ -54,7 +54,8 @@ namespace ProxyView
         {
             this.notifyIcon = new NotifyIcon();
             this.notifyIcon.Text = "代理监视器";
-            this.notifyIcon.Icon = new System.Drawing.Icon("D:/Projects/C#/ProxyView/ProxyView/Icon/github.ico");
+            //this.notifyIcon.Icon = new System.Drawing.Icon("C:/Users/ADMIN/Desktop/ProxyView/ProxyView/Icon/title.ico");
+            this.notifyIcon.Icon = new System.Drawing.Icon("C:/System/wudaTest/proxyTest/title.ico");
             this.notifyIcon.Visible = true;
             notifyIcon.MouseDoubleClick += onNotifyIconDoubleClick;
             //this.notifyIcon.ShowBalloonTip(1000);

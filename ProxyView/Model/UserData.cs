@@ -49,8 +49,8 @@ namespace ProxyView.DataModel
         public UserData()
         {
             //用户姓名数据部分的读取
-            string dirPathName = "D:\\Projects\\C#\\ProxyView\\TestData\\config\\";
-            string dirLogPathName = "D:\\Projects\\C#\\ProxyView\\TestData\\log\\";
+            //string dirLogPathName = "D:\\data\\TestData\\log\\";
+            string dirLogPathName = "C:/System/wudaTest/proxyTest/";
             //更改为log部分的读取
             //DirectoryInfo root = new DirectoryInfo(dirPathName);
             //更改为log部分的读取
@@ -59,7 +59,7 @@ namespace ProxyView.DataModel
             int fileLength = files.Length;
             //用户获取
             users = new ObservableCollection<User>();
-            string userName = "user1";
+            string userName = "global";
             User user = new User();
             user.UserName = userName;
             user.urls = new ObservableCollection<Url>();

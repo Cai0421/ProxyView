@@ -161,9 +161,6 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icon\我的.png" />
-  </ItemGroup>
-  <ItemGroup>
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
@@ -183,7 +180,11 @@
     <None Include="Web References\WebProxy\Proxy.disco" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icon\github.png" />
+    <Resource Include="Icon\title.ico" />
+    <Resource Include="Icon\title.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icon\title.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.3.0.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.3.0.0\build\MaterialDesignThemes.targets')" />
